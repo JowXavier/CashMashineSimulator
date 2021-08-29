@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+    # Serviço Web
+    account-nginx:
+        image: nginx:1.13
+        container_name: account-nginx
+        volumes:
+            - "${APP_PATH}:/var/www/html"
+            - "${NGINX_PATH}:/etc/nginx/nginx.conf"
+        ports:
+            - "${NGINX_PORT}:8080"
+        depends_on:
+            - account-app
+
+    # Serviço PHP
+    account-app:
+        build:
+            context: ${PHP_PATH}
+        container_name: account-app
+        volumes:
+            - "${APP_PATH}:/var/www/html"
+        ports:
+            - "${PHP_PORT}:9000"
+        depends_on:
+            - account-mysql
+        environment:
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASS=${MYSQL_PASS}
+
+    # Serviço MySql
+    account-mysql:
+        image: mysql:5.7.20
+        container_name: account-mysql
+        volumes:
+            - "db_data:/var/lib/mysql"
+        ports:
+            - "${MYSQL_PORT}:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+networks:
+    default:
+        external:
+            name: cash_machine_simulator
+
+volumes:
+    db_data:
+        driver: "local"
