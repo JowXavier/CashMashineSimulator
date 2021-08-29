@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +15,5 @@ use App\Http\Controllers\Api\AccountController;
 */
 
 Route::apiResources([
-    'users' => UserController::class,
-    'accounts' => AccountController::class
+    'users' => UserController::class
 ]);

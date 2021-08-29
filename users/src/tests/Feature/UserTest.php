@@ -55,8 +55,6 @@ class UserTest extends TestCase
             ->assertStatus(200);
 
         $this->assertEquals($user->name, $response['data']['name']);
-        $this->assertEquals($user->birth_date, $response['data']['birth_date']);
-        $this->assertEquals($user->cpf, $response['data']['cpf']);
     }
 
     /**

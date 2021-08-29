@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\Relationships\UserRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Model
 {
-    use HasFactory, UserRelationship, UserScope;
+    use HasFactory, UserScope;
 
     /**
      * The attributes that are mass assignable.

@@ -17,8 +17,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'birth_date' => $this->birth_date,
-            'cpf' => $this->cpf,
-            'account' => $this->account
+            'cpf' => $this->cpf
         ];
     }
 }
