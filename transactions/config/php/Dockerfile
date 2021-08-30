@@ -8,21 +8,22 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     libsqlite3-dev \
     build-essential \
-    libpng-dev \
-    libjpeg62-turbo-dev \
     libfreetype6-dev \
     locales \
     zip \
-    jpegoptim optipng pngquant gifsicle \
     vim \
     unzip \
     git \
-    curl
-
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg=/usr/include/ --enable-gd
+    curl \
+    librdkafka-dev
 
 # Instalar extensões
-RUN docker-php-ext-install mysqli pdo_mysql gd
+RUN docker-php-ext-install mysqli pdo_mysql
+RUN pecl install rdkafka
+
+# Habilitar no php.ini
+RUN ln -s /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini && \
+    echo "extension=rdkafka.so" >> /usr/local/etc/php/php.ini
 
 # Instalar e habilitar Redis
 RUN pecl install redis && docker-php-ext-enable redis

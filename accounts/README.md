@@ -52,3 +52,9 @@ Entra no container da aplicação
 ./bin/mysql
 ```
 Entra no container MySql da aplicação
+
+### Consumindo Tópicos
+```
+./bin/artisan kafka:consume users user-group
+```
+Consome o tópico "users"

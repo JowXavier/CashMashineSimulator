@@ -1,0 +1,5 @@
+#!/bin/bash
+cd "$(dirname "$0")/.."
+
+params=$@
+docker-compose exec kafka bash -c "kafka-console-producer --broker-list localhost:9092 --topic $params"
