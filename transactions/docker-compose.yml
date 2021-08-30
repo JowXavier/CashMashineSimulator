@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+    # Serviço Web
+    transaction-nginx:
+        image: nginx:1.13
+        container_name: transaction-nginx
+        volumes:
+            - "${APP_PATH}:/var/www/html"
+            - "${NGINX_PATH}:/etc/nginx/nginx.conf"
+        ports:
+            - "${NGINX_PORT}:8081"
+        depends_on:
+            - transaction-app
+
+     # Serviço Redis
+    transaction-redis:
+        image: redis:alpine
+        container_name: transaction-redis
+        command: redis-server
+        volumes:
+            - redis_data:/redis/data
+        ports:
+            - "6379:6379"
+
+    # Serviço PHP
+    transaction-app:
+        build:
+            context: ${PHP_PATH}
+        container_name: transaction-app
+        volumes:
+            - "${APP_PATH}:/var/www/html"
+        ports:
+            - "${PHP_PORT}:9000"
+        depends_on:
+            - transaction-mysql
+            - transaction-redis
+        environment:
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASS=${MYSQL_PASS}
+
+    # Serviço MySql
+    transaction-mysql:
+        image: mysql:5.7.20
+        container_name: transaction-mysql
+        volumes:
+            - "db_data:/var/lib/mysql"
+        ports:
+            - "${MYSQL_PORT}:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+
+networks:
+    default:
+        external:
+            name: cash_machine_simulator
+
+volumes:
+    db_data:
+        driver: "local"
+    redis_data:
+        driver: "local"

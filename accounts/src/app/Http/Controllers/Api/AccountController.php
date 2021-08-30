@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Account;
-use Illuminate\Http\Request;
 use App\Exceptions\ApiException;
 use App\Http\Requests\AccountRequest;
 use App\Http\Controllers\Controller;
@@ -23,7 +22,7 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         try {
             $accounts = $this->model->paginate();

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class TransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'birth_date' => 'required|date_format:Y-m-d',
-            'cpf' => 'required|numeric',
+            'account_id' => 'required',
+            'operation_type_id' => 'required',
+            'value' => 'required|numeric',
         ];
     }
 
@@ -38,11 +38,10 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'O campo name é obrigatório',
-            'birth_date.required' => 'O campo birth_date é obrigatório',
-            'birth_date.date_format' => 'O campo birth_date deve está no formato "YYYY-MM-DD" ',
-            'cpf.required' => 'O campo cpf é obrigatório',
-            'cpf.numeric' => 'O campo cpf deve possuir apenas números',
+            'account_id.required' => 'O campo account_id é obrigatório',
+            'operation_type_id.required' => 'O campo operation_type_id é obrigatório',
+            'value.required' => 'O campo value é obrigatório',
+            'value.numeric' => 'O campo value deve possuir apenas números',
         ];
     }
 }
