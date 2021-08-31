@@ -63,15 +63,6 @@ class kafkaConsumer extends Command
 
         $this->info("Consuming topic {$topic} from kafka");
 
-/*         switch ($topic) {
-            case 'users':
-                $consumer->consume(120*10000, [UserHandler::class]);
-                break;
-            default:
-                $consumer->consume(120*10000, [AccountHandler::class]);
-                break;
-        } */
-
         $consumer->consume(120*10000, [AccountHandler::class]);
     }
 }

@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
             OperationTypeSeeder::class,
         ]);
 
-        \App\Models\Transaction::factory(10)->create();
+        //\App\Models\Transaction::factory(10)->create();
     }
 }

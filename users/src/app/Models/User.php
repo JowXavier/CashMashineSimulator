@@ -16,6 +16,7 @@ class User extends Model
      * @var string[]
      */
     protected $fillable = [
+        'uuid',
         'name',
         'birth_date',
         'cpf'

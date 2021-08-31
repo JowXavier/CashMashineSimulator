@@ -16,6 +16,7 @@ class Account extends Model
      * @var string[]
      */
     protected $fillable = [
+        'uuid',
         'user_id',
         'agency',
         'account',

@@ -55,11 +55,6 @@ Entra no container MySql da aplicação
 
 ### Consumindo Tópicos
 ```
-./bin/artisan kafka:consume users user-group
-```
-Consome o tópico "users"
-
-```
 ./bin/artisan kafka:consume accounts account-group
 ```
 Consome o tópico "accounts"

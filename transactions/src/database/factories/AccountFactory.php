@@ -23,6 +23,7 @@ class AccountFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid,
             'user_id' => User::factory(),
             'agency' => $this->faker->randomNumber(3, false),
             'account' => $this->faker->randomNumber(5, false),

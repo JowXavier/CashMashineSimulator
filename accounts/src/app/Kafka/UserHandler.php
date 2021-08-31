@@ -14,6 +14,7 @@ class UserHandler implements KafkaConsumerHandlerInterface
         $user = User::firstOrCreate(
             [ 'id' => $payload->id],
             [
+                'uuid' => $payload->uuid,
                 'name' => $payload->name,
                 'birth_date' => $payload->birth_date,
                 'cpf' => $payload->cpf

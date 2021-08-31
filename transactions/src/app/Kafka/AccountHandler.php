@@ -15,7 +15,7 @@ class AccountHandler implements KafkaConsumerHandlerInterface
         $user = User::firstOrCreate(
             [ 'id' => $payload->user->id],
             [
-                'id' => $payload->user->id,
+                'uuid' => $payload->user->uuid,
                 'name' => $payload->user->name,
                 'birth_date' => $payload->user->birth_date,
                 'cpf' => $payload->user->cpf
@@ -25,6 +25,7 @@ class AccountHandler implements KafkaConsumerHandlerInterface
         $account = Account::firstOrCreate(
             [ 'id' => $payload->id],
             [
+                'uuid' => $payload->uuid,
                 'user_id' => $user->id,
                 'agency' => $payload->agency,
                 'account' => $payload->account,

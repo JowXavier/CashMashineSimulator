@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Transaction;
 use PHPAbstractKafka\Broker;
+use App\Observers\TransactionObserver;
 use PHPAbstractKafka\BrokerCollection;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +49,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Transaction::observe(TransactionObserver::class);
     }
 }

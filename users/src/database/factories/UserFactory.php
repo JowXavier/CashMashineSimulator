@@ -22,7 +22,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->name,
             'birth_date' => date('Y-m-d'),
             'cpf' => $this->faker->cpf(false),
         ];

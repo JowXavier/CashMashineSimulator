@@ -16,6 +16,7 @@ class Transaction extends Model
      * @var string[]
      */
     protected $fillable = [
+        'uuid',
         'account_id',
         'operation_type_id',
         'value'

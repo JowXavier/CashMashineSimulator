@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Account;
+use Illuminate\Support\Str;
 use PHPAbstractKafka\KafkaProducer;
 use Psr\Container\ContainerInterface;
 
@@ -23,6 +24,17 @@ class AccountObserver
     }
 
     /**
+     * Handle the user "creating" event.
+     *
+     * @param  \App\Models\Account  $account
+     * @return void
+     */
+    public function creating(Account $account)
+    {
+        $account->uuid = Str::uuid();
+    }
+
+    /**
      * Handle the Account "created" event.
      *
      * @param  \App\Models\Account  $account
@@ -30,18 +42,7 @@ class AccountObserver
      */
     public function created(Account $account)
     {
-        $data = [
-            'id' => $account->id,
-            'user_id' => $account->user_id,
-            'agency' => $account->agency,
-            'account' => $account->account,
-            'type' => $account->type,
-            'balance' => $account->balance,
-            'users' => [
-                'name' => $account->user->name
-            ]
-        ];
-
+        $account->user;
         $this->producer->produce($account);
     }
 
@@ -53,39 +54,7 @@ class AccountObserver
      */
     public function updated(Account $account)
     {
-        $this->producer->produce($account->toJson());
-    }
-
-    /**
-     * Handle the Account "deleted" event.
-     *
-     * @param  \App\Models\Account  $account
-     * @return void
-     */
-    public function deleted(Account $account)
-    {
-        //
-    }
-
-    /**
-     * Handle the Account "restored" event.
-     *
-     * @param  \App\Models\Account  $account
-     * @return void
-     */
-    public function restored(Account $account)
-    {
-        //
-    }
-
-    /**
-     * Handle the Account "force deleted" event.
-     *
-     * @param  \App\Models\Account  $account
-     * @return void
-     */
-    public function forceDeleted(Account $account)
-    {
-        //
+        $account->user;
+        $this->producer->produce($account);
     }
 }
