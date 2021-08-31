@@ -1,0 +1,6 @@
+#!/bin/bash
+cd "$(dirname "$0")/.."
+
+cp .env.example .env
+cd src
+cp .env.example .env
