@@ -18,6 +18,115 @@ class TransactionTest extends TestCase
 
         $this->seed(OperationTypeSeeder::class);
         $this->operationType = OperationType::first();
+        $this->service = new \App\Services\Account();
+    }
+
+    /**
+     * Validation Not Bills
+     *
+     * @return void
+     */
+    public function testValidationNotBills()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 100.00,
+            'value' => 80.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+        $this->assertEquals(1, count($operation['result']['error']));
+    }
+
+    /**
+     * Validation withdrawal from 50
+     *
+     * @return void
+     */
+    public function testValidationWithdrawalFrom50()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 200.00,
+            'value' => 150.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+
+        $this->assertEquals(2, count($operation['result']['bills']));
+        $this->assertEquals(100, $operation['result']['bills'][0]);
+        $this->assertEquals(50, $operation['result']['bills'][1]);
+    }
+
+    /**
+     * Validation withdrawal from 60
+     *
+     * @return void
+     */
+    public function testValidationWithdrawalFrom60()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 100.00,
+            'value' => 60.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+
+        $this->assertEquals(3, count($operation['result']['bills']));
+        $this->assertEquals(20, $operation['result']['bills'][0]);
+        $this->assertEquals(20, $operation['result']['bills'][1]);
+        $this->assertEquals(20, $operation['result']['bills'][2]);
+    }
+
+    /**
+     * Validation withdrawal not balance
+     *
+     * @return void
+     */
+    public function testValidationWithdrawalNotBalance()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 100.00,
+            'value' => 200.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+
+        $this->assertEquals(1, count($operation['result']['error']));
+    }
+
+    /**
+     * Validation withdrawal not bills from 15
+     *
+     * @return void
+     */
+    public function testValidationWithdrawalNotBillsFrom15()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 100.00,
+            'value' => 15.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+
+        $this->assertEquals(1, count($operation['result']['error']));
+        $this->assertEquals('Valor minimo para saque é de R$ 20,00.', $operation['result']['error'][0]);
+    }
+
+    /**
+     * Validation withdrawal not bills from 30
+     *
+     * @return void
+     */
+    public function testValidationWithdrawalNotBillsFrom30()
+    {
+        $params = [
+            'operation' => 1,
+            'balance' => 100.00,
+            'value' => 30.00
+        ];
+        $operation = $this->service->operationCalculate($params);
+
+        $this->assertEquals(1, count($operation['result']['error']));
+        $this->assertEquals('Não é possível realizar o saque.', $operation['result']['error'][0]);
     }
 
     /**
@@ -59,7 +168,7 @@ class TransactionTest extends TestCase
         $created = Transaction::factory()->create();
         $transaction = Transaction::find($created->id);
 
-        $this->assertEquals($created->value, $transaction->value);
+        $this->assertEquals($created->uuid, $transaction->uuid);
     }
 
     /**

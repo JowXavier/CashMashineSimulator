@@ -12,7 +12,7 @@ class UserHandler implements KafkaConsumerHandlerInterface
         $payload = json_decode($message->payload);
 
         $user = User::firstOrCreate(
-            [ 'id' => $payload->id],
+            ['uuid' => $payload->uuid],
             [
                 'uuid' => $payload->uuid,
                 'name' => $payload->name,

@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Kafka\UserHandler;
 use Illuminate\Console\Command;
+use App\Kafka\UserHandler;
+use App\Kafka\TransactionHandler;
 use Psr\Container\ContainerInterface;
 
 class kafkaConsumer extends Command
@@ -62,6 +63,13 @@ class kafkaConsumer extends Command
 
         $this->info("Consuming topic {$topic} from kafka");
 
-        $consumer->consume(120*10000, [UserHandler::class]);
+        switch ($topic) {
+            case 'users':
+                $consumer->consume(120*10000, [UserHandler::class]);
+                break;
+            default:
+                $consumer->consume(120*10000, [TransactionHandler::class]);
+                break;
+        }
     }
 }

@@ -13,7 +13,7 @@ class AccountHandler implements KafkaConsumerHandlerInterface
         $payload = json_decode($message->payload);
 
         $user = User::firstOrCreate(
-            [ 'id' => $payload->user->id],
+            ['uuid' => $payload->user->uuid],
             [
                 'uuid' => $payload->user->uuid,
                 'name' => $payload->user->name,
@@ -23,7 +23,7 @@ class AccountHandler implements KafkaConsumerHandlerInterface
         );
 
         $account = Account::firstOrCreate(
-            [ 'id' => $payload->id],
+            ['uuid' => $payload->uuid],
             [
                 'uuid' => $payload->uuid,
                 'user_id' => $user->id,

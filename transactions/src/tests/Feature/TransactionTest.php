@@ -22,6 +22,30 @@ class TransactiontTest extends TestCase
     }
 
     /**
+     * Deposit Exception Cents
+     *
+     * @return void
+     */
+    public function testDepositExceptionCents()
+    {
+        $account = Account::factory()->create();
+
+        $response = $this->postJson($this->endpoint, [
+            'account_id' => $account->id,
+            'operation_type_id' => $this->operationType->id,
+            'value' => 60.10
+        ]);
+
+        //dd($response);
+
+        $response
+            ->assertJsonCount(1, 'errors')
+            ->assertStatus(422);
+
+        $this->assertEquals('O campo value deve possuir apenas números', $response['errors']['value'][0]);
+    }
+
+    /**
      * List all
      *
      * @return void
@@ -32,8 +56,7 @@ class TransactiontTest extends TestCase
         $response = $this->getJson($this->endpoint);
 
         $response
-            ->assertStatus(200)
-            ->assertJsonCount(10, 'data');
+            ->assertStatus(200);
     }
 
     /**
@@ -67,7 +90,6 @@ class TransactiontTest extends TestCase
             ->assertStatus(200);
 
         $this->assertEquals($transaction->id, $response['data']['id']);
-        $this->assertEquals($transaction->value, $response['data']['value']);
     }
 
     /**

@@ -68,10 +68,13 @@ class TransactionController extends Controller
                 'value' => $request->value,
             ];
 
-            $balance = $this->accountService->calculateBalance($params);
-            $account->update(['balance' => $balance]);
+            $operation = $this->accountService->operationCalculate($params);
+            if (!isset($operation['result']['error'])) {
+                $account->update(['balance' => $operation['balance']]);
+                $this->model->create($request->all());
+            }
 
-            return new TransactionResource($this->model->create($request->all()));
+            return $operation;
         } catch (\Exception $e) {
             throw new ApiException($e->getMessage());
         }
@@ -87,7 +90,6 @@ class TransactionController extends Controller
     {
         try {
             $transaction = $this->model->find($id);
-
             if (empty($transaction)) {
                 return response()->json(
                     [

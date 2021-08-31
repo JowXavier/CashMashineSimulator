@@ -1,6 +1,6 @@
 # Account Service
 
-Este projeto baseado em [Docker](https://www.docker.com/) e, por isso, é necessário o ter instalado para execução do ambiente.
+Este projeto é baseado em [Docker](https://www.docker.com/) e, por isso, é necessário o ter instalado para execução do ambiente.
 
 A pasta `./bin` possui diversos scripts utilitários, para configuração, execução e manipulação do ambiente de desenvolvimento da aplicação.
 
@@ -58,3 +58,8 @@ Entra no container MySql da aplicação
 ./bin/artisan kafka:consume users user-group
 ```
 Consome o tópico "users"
+
+```
+./bin/artisan kafka:consume transactions transaction-group
+```
+Consome o tópico "transactions"
